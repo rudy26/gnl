@@ -3,42 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbrantho <rbrantho@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rbrantho <rbrantho@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 13:35:35 by rbrantho          #+#    #+#             */
-/*   Updated: 2025/11/01 14:51:33 by rbrantho         ###   ########.fr       */
+/*   Created: 2025/11/13 19:38:48 by rbrantho          #+#    #+#             */
+/*   Updated: 2025/11/13 19:38:50 by rbrantho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-
-# include <stdio.h>
-# include <stdlib.h>
-# include <fcntl.h>
-
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <unistd.h>
-
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 42
 # endif
 
-typedef struct s_list
-{
-	char			*content;
-	struct s_list	*next;
-}					t_list;
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-t_list	*ft_last(t_list *stash);
-int		newline(t_list *stash);
-void	generate_line(char **line, t_list *stash);
-void	free_stash(t_list *stash);
-char	*get_next_line(int fd);
-void	read_stash(int fd, t_list **stash);
-void	add_stash(t_list **stash, char *buff, int reade);
-void	extract_line(t_list *stash, char **line);
-void	clean(t_list **stash);
 int		ft_strlen(char *str);
+int		found_new_line(char *stash);
+char	*ft_strjoin(char *s1, char *s2);
+char	*save(char *stash);
+char	*take_line(char *tmp);
+char	*get_next_line(int fd);
+char	*ft_strchr(const char *s, int c);
+
 #endif

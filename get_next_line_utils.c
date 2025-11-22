@@ -3,80 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbrantho <rbrantho@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rbrantho <rbrantho@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 13:33:22 by rbrantho          #+#    #+#             */
-/*   Updated: 2025/10/31 17:00:36 by rbrantho         ###   ########.fr       */
+/*   Created: 2025/11/13 19:38:35 by rbrantho          #+#    #+#             */
+/*   Updated: 2025/11/13 19:38:40 by rbrantho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_list	*ft_last(t_list *stash)
+int	found_new_line(char *stash)
 {
-	t_list	*current;
-
-	current = stash;
-	while (current && current ->next)
-		current = current ->next;
-	return (current);
-}
-
-int	newline(t_list *stash)
-{
-	int		i;
-	t_list	*current;
-
-	if (stash == NULL)
+	if (!stash)
 		return (0);
-	current = ft_last(stash);
-	i = 0;
-	while (current ->content[i])
+	while (*stash)
 	{
-		if (current ->content[i] == '\n')
+		if (*stash == '\n')
 			return (1);
-		i++;
+		stash++;
 	}
 	return (0);
-}
-
-void	generate_line(char **line, t_list *stash)
-{
-	int	i;
-	int	len;
-
-	len = 0;
-	while (stash)
-	{
-		i = 0;
-		while (stash ->content[i])
-		{
-			if (stash->content[i] == '\n')
-			{
-				len++;
-				break ;
-			}
-			len++;
-			i++;
-		}
-		stash = stash ->next;
-	}
-	*line = malloc(sizeof(char) * (len + 1));
-}
-
-void	free_stash(t_list *stash)
-{
-	t_list	*current;
-	t_list	*next;
-
-	current = stash;
-	while (current)
-	{
-		free(current->content);
-		next = current->next;
-		free(current);
-		current = next;
-	}
 }
 
 int	ft_strlen(char *str)
@@ -84,7 +30,48 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*res;
+	size_t	i;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	i = 0;
+	res = malloc(len1 + len2 + 1);
+	if (!res)
+		return (NULL);
+	while (s1 && *s1)
+		res[i++] = *s1++;
+	while (s2 && *s2)
+		res[i++] = *s2++;
+	res[i] = '\0';
+	return (res);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	*tmp;
+	int		i;
+
+	tmp = (char *)s;
+	i = 0;
+	if (!tmp)
+		return (0);
+	while (tmp[i])
+	{
+		if (tmp[i] == c)
+			return (&tmp[i]);
+		i++;
+	}
+	return (0);
 }
